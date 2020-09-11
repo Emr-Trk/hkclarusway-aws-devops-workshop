@@ -6,7 +6,7 @@ Resources:
     Properties:
       ImageId: ami-0c94855ba95c71c99
       InstanceType: t2.micro
-      Keyname: key
+      KeyName: key
       SecurityGroups:
         - HTTPandSSH
       Tags:
@@ -26,7 +26,7 @@ Resources:
           wget https://raw.githubusercontent.com/hkn-asln/hkclarusway-aws-devops-workshop/master/aws/projects/101-kittens-carousel-static-website-ec2/static-web/cat0.jpg
           wget https://raw.githubusercontent.com/hkn-asln/hkclarusway-aws-devops-workshop/master/aws/projects/101-kittens-carousel-static-website-ec2/static-web/cat1.jpg
           wget https://raw.githubusercontent.com/hkn-asln/hkclarusway-aws-devops-workshop/master/aws/projects/101-kittens-carousel-static-website-ec2/static-web/cat2.jpg
-          
+
           
 
           
