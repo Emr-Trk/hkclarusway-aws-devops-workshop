@@ -1,32 +1,37 @@
-from flask import Flask,render_template,request
+from flask import Flask, render_template, request
 
-app=Flask(__name__)
+app = Flask(__name__)
 
-def romenconcert(num):
-    num_map = [(1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'), (100, 'C'), (90, 'XC'),
-           (50, 'L'), (40, 'XL'), (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'), (1, 'I')]
-    num=int(num)
-    if num>4000 or num<1:
-        return ("Not Valid Input !!!")
-    else :
-        roman = ''
-        while num > 0:
-            for i, r in num_map:
-                while num >= i:
-                    roman += r
-                    num -= i
-        return roman
+def convert_to_roman(num):
+	roman = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I']
+	sayi = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
+	romanvalue = ""
+	for i, d in enumerate(sayi):
+		while (num >= d):
+			num -= d
+			romanvalue += roman[i]
+	return romanvalue
 
-@app.route("/",methods=["POST","GET"])
-def index(): #developer_name index.htmlde
-    developer_name="E2147 Hakan"
-    if request.method == "POST": #post olursa result.html(kullanici bize sayi gonderiyor sonucu gosterdik), get olursa index.html(sayi girdi), her sayfa tiklamasi get request
-        number_decimal = request.form.get("number") #index.html de form da girilen sayiyi aldik
-        number_roman = romenconcert(number_decimal) #yukaridaki fonksiyonumuza soktuk, donusum oldu
-        return render_template("result.html", number_decimal = number_decimal, number_roman=number_roman, developer_name=developer_name) #result.html e neler dondurecegiz
-    else:
-        return render_template("index.html", developer_name=developer_name)#get metodu da index.html dondurur 
-    
-if __name__=="__main__":
-    #app.run(debug="True")
-    app.run(host=0.0.0.0/0, port=80)
+@app.route('/', methods = ['GET'])
+def main_get():
+    return render_template('index.html', developer_name = 'Serkan', not_valid = False)
+
+@app.route('/', methods = ['POST'])
+def main_post():
+    alpha = request.form['number']
+    if not alpha.isdecimal():
+        return render_template('index.html', developer_name = 'Serkan', belkis = True)
+    number = int(alpha)
+    if not 0 < number < 4000:
+        return render_template('index.html', developer_name = 'Serkan',  belkis = True)
+    return render_template('result.html', number_decimal = number, number_roman = convert_to_roman(number), developer_name = 'Serkan')
+
+if __name__=='__main__':
+    #app.run()
+    #app.run(debug=True)
+    app.run('0.0.0.0',port=80)
+
+
+
+
+
